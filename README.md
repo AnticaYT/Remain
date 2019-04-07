@@ -42,7 +42,9 @@ We use Maven to compile it. See below for a step-by-step tutorial. If you don't 
 </dependency>
 ```
 
-3. Make sure that the library shades into your final .jar when you compile your plugin. Here is an example of a shade plugin that will do it for you:
+3. **Set your plugin's instance to hook into Remain by calling Remain#setPlugin(JavaPlugin).**
+
+4. Make sure that the library shades into your final .jar when you compile your plugin. Here is an example of a shade plugin that will do it for you:
 
 **IF YOU ALREADY HAVE A SHADE PLUGIN, ONLY USE THE RELOCATION SECTION FROM BELOW.**
 
