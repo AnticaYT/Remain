@@ -37,7 +37,7 @@ We use Maven to compile it. See below for a step-by-step tutorial. If you don't 
 <dependency>
 	<groupId>com.github.kangarko</groupId>
 	<artifactId>Remain</artifactId>
-	<version>2.1.0</version> <!-- change to the latest version -->
+	<version>3.0.0</version> <!-- change to the latest version -->
 	<scope>compile</scope>
 </dependency>
 ```
