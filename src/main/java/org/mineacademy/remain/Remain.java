@@ -1278,11 +1278,14 @@ public class Remain {
 	 *
 	 * @return max health, or 2048 if not found
 	 */
-	public static final int getMaxHealth() {
+	public static final double getMaxHealth() {
 		try {
-			return (int) Class.forName("org.spigotmc.SpigotConfig").getField("maxHealth").get(null);
+			String health = String.valueOf(Class.forName("org.spigotmc.SpigotConfig").getField("maxHealth").get(null));
+
+			return health.contains(".") ? Double.parseDouble(health) : Integer.parseInt(health);
+
 		} catch (final Throwable t) {
-			return 2048;
+			return 2048.0;
 		}
 	}
 
