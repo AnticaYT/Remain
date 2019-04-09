@@ -65,11 +65,11 @@ import org.mineacademy.remain.internal.bossbar.BossBarInternals;
 import org.mineacademy.remain.model.CompBarColor;
 import org.mineacademy.remain.model.CompBarStyle;
 import org.mineacademy.remain.model.CompMaterial;
-import org.mineacademy.remain.util.CompatUtils;
 import org.mineacademy.remain.util.MinecraftVersion;
 import org.mineacademy.remain.util.MinecraftVersion.V;
 import org.mineacademy.remain.util.NameFetcher;
 import org.mineacademy.remain.util.ReflectionUtil;
+import org.mineacademy.remain.util.RemainUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -491,6 +491,35 @@ public class Remain {
 	}
 
 	/**
+	 * Sends a fake block update to a certain location, and than reverts it back to
+	 * the real block after a while.
+	 *
+	 * @param delayTicks the pause between reverting back
+	 * @param player     the player
+	 * @param loc        the location
+	 * @param material   the material
+	 */
+	public static void animateBlockChange(final int delayTicks, final Player player, final Location loc, final CompMaterial material) {
+		// Force to run sync
+		RemainUtils.runDelayed(() -> {
+			try {
+				player.sendBlockChange(loc, material.getMaterial().createBlockData());
+			} catch (NoSuchMethodError ex) {
+				player.sendBlockChange(loc, material.getMaterial(), (byte) material.getData());
+			}
+		});
+
+		// Rest
+		RemainUtils.runDelayed(delayTicks, () -> {
+			try {
+				player.sendBlockChange(loc, loc.getBlock().getBlockData());
+			} catch (NoSuchMethodError ex) {
+				player.sendBlockChange(loc, material.getMaterial(), (byte) material.getData());
+			}
+		});
+	}
+
+	/**
 	 * Converts json string into legacy colored text
 	 *
 	 * @param json
@@ -526,7 +555,7 @@ public class Remain {
 				text += comp.toLegacyText();
 			}
 		} catch (final Throwable t) {
-			CompatUtils.debug("Unable to parse JSON message. Got " + t.getMessage());
+			RemainUtils.debug("Unable to parse JSON message. Got " + t.getMessage());
 		}
 
 		return text;
@@ -586,7 +615,7 @@ public class Remain {
 			sendComponent(sender, ComponentSerializer.parse(json));
 
 		} catch (final RuntimeException ex) {
-			CompatUtils.error("Malformed JSON when sending message to " + sender.getName() + " with JSON: " + json, ex);
+			RemainUtils.error("Malformed JSON when sending message to " + sender.getName() + " with JSON: " + json, ex);
 		}
 	}
 
@@ -613,12 +642,12 @@ public class Remain {
 	public static void sendTitle(boolean forceNms, final Player player, int fadeIn, int stay, int fadeOut, String title, String subtitle) {
 		if (MinecraftVersion.newerThan(V.v1_7)) {
 			if (hasPlayerTitleAPI && !forceNms)
-				player.sendTitle(CompatUtils.colorize(title), CompatUtils.colorize(subtitle));
+				player.sendTitle(RemainUtils.colorize(title), RemainUtils.colorize(subtitle));
 			else
 				ChatInternals.sendTitle(player, fadeIn, stay, fadeOut, title, subtitle);
 		} else {
-			CompatUtils.tell(player, title);
-			CompatUtils.tell(player, subtitle);
+			RemainUtils.tell(player, title);
+			RemainUtils.tell(player, subtitle);
 		}
 	}
 
@@ -657,12 +686,12 @@ public class Remain {
 	 */
 	public static void sendActionBar(Player player, String text) {
 		if (!MinecraftVersion.newerThan(V.v1_7)) {
-			CompatUtils.tell(player, text);
+			RemainUtils.tell(player, text);
 			return;
 		}
 
 		try {
-			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(CompatUtils.colorize(text)));
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(RemainUtils.colorize(text)));
 
 		} catch (final NoSuchMethodError err) {
 			ChatInternals.sendActionBar(player, text);
@@ -841,7 +870,7 @@ public class Remain {
 	 * @param delayTicks how long to way before respawning, minimum 1 tick
 	 */
 	public static void respawn(Player player, int delayTicks) {
-		CompatUtils.runDelayed(delayTicks == 0 ? 1 : delayTicks, () -> respawnNow(player));
+		RemainUtils.runDelayed(delayTicks == 0 ? 1 : delayTicks, () -> respawnNow(player));
 	}
 
 	/**
@@ -886,7 +915,7 @@ public class Remain {
 		try {
 			return e.getHand() != null && e.getHand() == EquipmentSlot.HAND;
 		} catch (final NoSuchMethodError err) {
-			return true;
+			return true; // Older MC, always true since there was no off-hand
 		}
 	}
 
@@ -898,7 +927,7 @@ public class Remain {
 	 * @return
 	 */
 	public static final Score getScore(Objective obj, String entry) {
-		entry = CompatUtils.colorize(entry);
+		entry = RemainUtils.colorize(entry);
 
 		try {
 			return obj.getScore(entry);
@@ -989,7 +1018,7 @@ public class Remain {
 	public static final void setCustomName(Entity en, String name) {
 		try {
 			en.setCustomNameVisible(true);
-			en.setCustomName(CompatUtils.colorize(name));
+			en.setCustomName(RemainUtils.colorize(name));
 		} catch (final NoSuchMethodError er) {
 		}
 	}
@@ -1058,7 +1087,7 @@ public class Remain {
 	 */
 	public static final void sendToast(Player receiver, String message) {
 		if (hasAdvancements && message != null && !message.isEmpty()) {
-			final String colorized = CompatUtils.colorize(message);
+			final String colorized = RemainUtils.colorize(message);
 
 			if (!colorized.isEmpty())
 				new AdvancementAccessor(
@@ -1210,7 +1239,7 @@ public class Remain {
 			return (String) item.getClass().getDeclaredMethod("getI18NDisplayName").invoke(item);
 
 		} catch (final Throwable t) {
-			return CompatUtils.bountify(item.getType());
+			return RemainUtils.bountify(item.getType());
 		}
 	}
 
@@ -1421,7 +1450,7 @@ class BungeeChatProvider {
 
 		} catch (NoClassDefFoundError | NoSuchMethodError ex) {
 			if (MinecraftVersion.newerThan(V.v1_7))
-				CompatUtils.error("Error printing JSON message, sending as plain.", ex);
+				RemainUtils.error("Error printing JSON message, sending as plain.", ex);
 
 			tell0(sender, plainMessage);
 
@@ -1471,7 +1500,7 @@ class AdvancementAccessor {
 		add();
 		grant(player);
 
-		CompatUtils.runDelayed(10, () -> {
+		RemainUtils.runDelayed(10, () -> {
 			revoke(player);
 			remove();
 		});
