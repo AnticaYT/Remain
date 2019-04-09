@@ -27,7 +27,7 @@ import org.mineacademy.remain.util.MinecraftVersion.V;
  *
  * @author kangarko
  */
-public final class CompatUtils {
+public final class RemainUtils {
 
 	// The "command sender", is the object that is responsible for sending messages to the console, colors are supported
 	private static final ConsoleCommandSender consoleSender = Bukkit.getConsoleSender();
@@ -36,7 +36,7 @@ public final class CompatUtils {
 	private static final boolean LEGACY_MATERIALS = MinecraftVersion.olderThan(V.v1_13);
 
 	// Prevent new instance, always call static methods
-	private CompatUtils() {
+	private RemainUtils() {
 	}
 
 	/**

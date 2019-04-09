@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.mineacademy.remain.Remain;
-import org.mineacademy.remain.util.CompatUtils;
+import org.mineacademy.remain.util.RemainUtils;
 import org.mineacademy.remain.util.MinecraftVersion;
 import org.mineacademy.remain.util.ReflectionUtil;
 import org.mineacademy.remain.util.MinecraftVersion.V;
@@ -165,7 +165,7 @@ public class ChatInternals {
 			ReflectionUtil.sendPacket(player, packet);
 
 		} catch (final ReflectiveOperationException ex) {
-			CompatUtils.error("Failed to send tablist to " + player.getName() + ", title: " + headerRaw + " " + footerRaw, ex);
+			RemainUtils.error("Failed to send tablist to " + player.getName() + ", title: " + headerRaw + " " + footerRaw, ex);
 		}
 	}
 
@@ -188,7 +188,7 @@ public class ChatInternals {
 			ReflectionUtil.sendPacket(pl, packet);
 
 		} catch (final ReflectiveOperationException ex) {
-			CompatUtils.error("Failed to send chat packet type " + type + " to " + pl.getName() + ", message: " + text, ex);
+			RemainUtils.error("Failed to send chat packet type " + type + " to " + pl.getName() + ", message: " + text, ex);
 		}
 	}
 
@@ -210,6 +210,6 @@ public class ChatInternals {
 		if ((text.startsWith("\"") && text.endsWith("\"")) || text.startsWith("'") && text.endsWith("'"))
 			text = text.substring(1, text.length() - 1);
 
-		return CompatUtils.colorize(text);
+		return RemainUtils.colorize(text);
 	}
 }

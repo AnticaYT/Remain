@@ -182,7 +182,7 @@ public class MinecraftVersion {
 			}
 
 		} catch (final Throwable t) {
-			CompatUtils.error("Error detecting your Minecraft version. Check server compatibility.", t);
+			RemainUtils.error("Error detecting your Minecraft version. Check server compatibility.", t);
 		}
 	}
 }

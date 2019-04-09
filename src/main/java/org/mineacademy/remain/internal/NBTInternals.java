@@ -14,8 +14,9 @@ import org.mineacademy.remain.util.MinecraftVersion;
 /**
  * Utility class to test NBT library's compatibility
  *
- * @deprecated internal use only, please use {@link NBTEntity}, {@link NBTTileEntity} and {@link NBTItem} to
- * modify entity and items
+ * @deprecated internal use only, please use {@link NBTEntity},
+ *             {@link NBTTileEntity} and {@link NBTItem} to modify entity and
+ *             items
  */
 @Deprecated
 public class NBTInternals {
@@ -101,15 +102,15 @@ public class NBTInternals {
 				compatible = false;
 			}
 
-			if (!(STRING_VALUE).equals(nbtItem.getString(STRING_KEY))
+			if (!STRING_VALUE.equals(nbtItem.getString(STRING_KEY))
 					|| nbtItem.getInteger(INT_KEY) != INT_VALUE
 					|| nbtItem.getDouble(DOUBLE_KEY) != DOUBLE_VALUE
 					|| nbtItem.getByte(BYTE_KEY) != BYTE_VALUE
 					|| nbtItem.getShort(SHORT_KEY) != SHORT_VALUE
 					|| nbtItem.getFloat(FLOAT_KEY) != FLOAT_VALUE
 					|| nbtItem.getLong(LONG_KEY) != LONG_VALUE
-					|| nbtItem.getIntArray(INTARRAY_KEY).length != (INTARRAY_VALUE).length
-					|| nbtItem.getByteArray(BYTEARRAY_KEY).length != (BYTEARRAY_VALUE).length
+					|| nbtItem.getIntArray(INTARRAY_KEY).length != INTARRAY_VALUE.length
+					|| nbtItem.getByteArray(BYTEARRAY_KEY).length != BYTEARRAY_VALUE.length
 					|| !nbtItem.getBoolean(BOOLEAN_KEY).equals(BOOLEAN_VALUE)) {
 				System.out.println("One key does not equal the original value!");
 
@@ -183,7 +184,7 @@ public class NBTInternals {
 			System.out.println("The NBT library seems to be broken with your");
 			System.out.println("Spigot version " + MinecraftVersion.getServerVersion());
 			System.out.println();
-			System.out.println("Please contact us at github.com/kangarko/compatbridg");
+			System.out.println("Please contact the developer of this library.");
 		}
 
 		return compatible && jsonCompatible;

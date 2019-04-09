@@ -175,7 +175,7 @@ public final class ReflectionUtil {
 			return (Item) bukkitItem;
 
 		} catch (final ReflectiveOperationException ex) {
-			CompatUtils.error("Error spawning item " + item.getType() + " at " + loc, ex);
+			RemainUtils.error("Error spawning item " + item.getType() + " at " + loc, ex);
 
 			return null;
 		}
@@ -224,7 +224,7 @@ public final class ReflectionUtil {
 
 			entityPlayer.getClass().getMethod("updateInventory", getNMSClass("Container")).invoke(entityPlayer, activeContainer);
 		} catch (final ReflectiveOperationException ex) {
-			CompatUtils.error("Error updating " + player.getName() + " inventory title to '" + title + "'", ex);
+			RemainUtils.error("Error updating " + player.getName() + " inventory title to '" + title + "'", ex);
 		}
 	}
 

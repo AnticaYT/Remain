@@ -20,7 +20,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.mineacademy.remain.Remain;
 import org.mineacademy.remain.model.CompBarColor;
 import org.mineacademy.remain.model.CompBarStyle;
-import org.mineacademy.remain.util.CompatUtils;
+import org.mineacademy.remain.util.RemainUtils;
 import org.mineacademy.remain.util.MinecraftVersion;
 import org.mineacademy.remain.util.ReflectionUtil;
 import org.mineacademy.remain.util.MinecraftVersion.V;
@@ -100,7 +100,7 @@ public class BossBarInternals implements Listener {
 			Bukkit.getPluginManager().registerEvents(singleton, Remain.getPlugin());
 
 			if (ReflectionUtil.isProtocolHack())
-				CompatUtils.runTimer(5, () -> {
+				RemainUtils.runTimer(5, () -> {
 					for (final UUID uuid : players.keySet()) {
 						final Player player = Remain.getPlayerByUUID(uuid);
 
@@ -158,7 +158,7 @@ public class BossBarInternals implements Listener {
 		if (oldDragon instanceof v1_9Native)
 			return;
 
-		CompatUtils.runDelayed(2, () -> {
+		RemainUtils.runDelayed(2, () -> {
 			if (!hasBar(player))
 				return;
 
@@ -255,7 +255,7 @@ public class BossBarInternals implements Listener {
 
 		cancelTimer(player);
 
-		timers.put(player.getUniqueId(), CompatUtils.runTimer(20, 20, () -> {
+		timers.put(player.getUniqueId(), RemainUtils.runTimer(20, 20, () -> {
 			final EnderDragonEntity drag = getDragon(player, "");
 			drag.health -= dragonHealthMinus;
 
