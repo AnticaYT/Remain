@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.mineacademy.remain.util.CompatUtils;
+import org.mineacademy.remain.util.RemainUtils;
 import org.mineacademy.remain.util.MinecraftVersion;
 import org.mineacademy.remain.util.MinecraftVersion.V;
 import org.mineacademy.remain.util.ReflectionUtil;
@@ -1105,7 +1105,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isAir(Material material) {
-		return material == null || is(material, "AIR", "CAVE_AIR", "VOID_AIR");
+		return material == null || nameEquals(material, "AIR", "CAVE_AIR", "VOID_AIR");
 	}
 
 	/**
@@ -1115,7 +1115,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isHorseArmor(Material mat) {
-		return is(mat, "BARDING", "HORSE_ARMOR");
+		return nameEquals(mat, "BARDING", "HORSE_ARMOR");
 	}
 
 	/**
@@ -1125,7 +1125,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isCarpet(Material mat) {
-		return is(mat, "CARPET");
+		return nameContains(mat, "CARPET");
 	}
 
 	/**
@@ -1136,7 +1136,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isHardClay(Material mat) {
-		return is(mat, "STAINED_CLAY", "HARD_CLAY", "TERRACOTTA");
+		return nameContains(mat, "STAINED_CLAY", "HARD_CLAY", "TERRACOTTA");
 	}
 
 	/**
@@ -1146,7 +1146,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isLeash(Material mat) {
-		return is(mat, "LEASH", "LEAD");
+		return nameEquals(mat, "LEASH", "LEAD");
 	}
 
 	/**
@@ -1156,7 +1156,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isHeavyPressurePlate(Material mat) {
-		return is(mat, "IRON_PLATE", "GOLD_PLATE", "WEIGHTED_PRESSURE_PLATE");
+		return nameContains(mat, "IRON_PLATE", "GOLD_PLATE", "WEIGHTED_PRESSURE_PLATE");
 	}
 
 	/**
@@ -1166,7 +1166,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isFirework(Material mat) {
-		return is(mat, "FIREWORK");
+		return nameContains(mat, "FIREWORK");
 	}
 
 	/**
@@ -1176,9 +1176,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isLog(Material mat) {
-		final String n = mat.toString();
-
-		return n.equals("LOG") || n.equals("LOG_2") || n.endsWith("_LOG");
+		return nameEquals(mat, "LOG", "LOG_2", "_LOG");
 	}
 
 	/**
@@ -1200,7 +1198,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isRedstoneLamp(Material mat) {
-		return is(mat, "REDSTONE_LAMP");
+		return nameContains(mat, "REDSTONE_LAMP");
 	}
 
 	/**
@@ -1210,7 +1208,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isMonsterEgg(Material mat) {
-		return is(mat, "MONSTER_EGG", "_SPAWN_EGG");
+		return nameContains(mat, "MONSTER_EGG", "_SPAWN_EGG");
 	}
 
 	/**
@@ -1220,7 +1218,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isSapling(Material mat) {
-		return is(mat, "SAPLING") && !mat.toString().startsWith("POTTED");
+		return nameContains(mat, "SAPLING") && !mat.toString().startsWith("POTTED");
 	}
 
 	/**
@@ -1230,7 +1228,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isLongGrass(Material mat) {
-		return is(mat, "LONG_GRASS", "TALL_GRASS", "FERN", "DEAD_BUSH") && !mat.toString().startsWith("POTTED");
+		return nameEquals(mat, "LONG_GRASS", "TALL_GRASS", "FERN", "DEAD_BUSH") && !mat.toString().startsWith("POTTED");
 	}
 
 	/**
@@ -1240,7 +1238,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static final boolean isDoublePlant(Material mat) {
-		return is(mat, "DOUBLE_PLANT", "SUNFLOWER", "LILAC", "TALL_GRASS", "LARGE_FERN", "ROSE_BUSH", "PEONY", "TALL_SEAGRASS");
+		return nameEquals(mat, "DOUBLE_PLANT", "SUNFLOWER", "LILAC", "TALL_GRASS", "LARGE_FERN", "ROSE_BUSH", "PEONY", "TALL_SEAGRASS");
 	}
 
 	/**
@@ -1278,11 +1276,21 @@ public enum CompMaterial {
 	}
 
 	// Utility method for evaluating matches.
-	private static final boolean is(Material mat, String... names) {
+	private static final boolean nameContains(Material mat, String... names) {
 		final String matName = mat.toString();
 
 		for (final String name : names)
 			if (matName.contains(name))
+				return true;
+
+		return false;
+	}
+
+	private static final boolean nameEquals(Material mat, String... names) {
+		final String matName = mat.toString();
+
+		for (final String name : names)
+			if (matName.equals(name))
 				return true;
 
 		return false;
@@ -1341,7 +1349,7 @@ public enum CompMaterial {
 		final CompMaterial mat = fromString(name);
 
 		// Return the egg or sheep egg if does not exist
-		return CompatUtils.getOrDefault(mat, CompMaterial.SHEEP_SPAWN_EGG);
+		return RemainUtils.getOrDefault(mat, CompMaterial.SHEEP_SPAWN_EGG);
 	}
 
 	/**
