@@ -313,31 +313,42 @@ public final class ReflectionUtil {
 	 * @return
 	 */
 	public static <T> T getField(Object instance, String field, Class<T> type) {
-		return getFieldContent(instance.getClass(), field, instance, type);
+		return getFieldContent(instance.getClass(), field, instance);
 	}
 
-	public static <T> T getFieldContent(Class<?> clazz, String field, Object instance, Class<T> type) {
-		do {
-			// note: getDeclaredFields() fails if any of the fields are classes that cannot be loaded
-			for (final Field f : clazz.getDeclaredFields())
-				if (f.getName().equals(field))
-					return getFieldContent(f, instance, type);
-
-		} while (!(clazz = clazz.getSuperclass()).isAssignableFrom(Object.class));
-
-		throw new ReflectionException("No such field " + field + " in " + instance.getClass());
+	/**
+	 * Convenience method for getting a static field content.
+	 *
+	 * @param <T>
+	 * @param clazz
+	 * @param field
+	 * @param type
+	 * @return
+	 */
+	public static <T> T getStaticFieldContent(Class<?> clazz, String field) {
+		return getFieldContent(clazz, field, null);
 	}
 
 	/**
 	 * Get the field content
 	 *
+	 * @param <T>
+	 * @param clazz
 	 * @param field
 	 * @param instance
 	 * @param type
 	 * @return
 	 */
-	public static <T> T getFieldContent(Field field, Object instance, Class<T> type) {
-		return (T) getFieldContent(field, instance);
+	public static <T> T getFieldContent(Class<?> clazz, String field, Object instance) {
+		do {
+			// note: getDeclaredFields() fails if any of the fields are classes that cannot be loaded
+			for (final Field f : clazz.getDeclaredFields())
+				if (f.getName().equals(field))
+					return (T) getFieldContent(f, instance);
+
+		} while (!(clazz = clazz.getSuperclass()).isAssignableFrom(Object.class));
+
+		throw new ReflectionException("No such field " + field + " in " + clazz);
 	}
 
 	/**
@@ -354,7 +365,7 @@ public final class ReflectionUtil {
 			return field.get(instance);
 
 		} catch (final ReflectiveOperationException e) {
-			throw new ReflectionException("Could not get field " + field.getName() + " in instance " + instance.getClass().getSimpleName());
+			throw new ReflectionException("Could not get field " + field.getName() + " in instance " + (instance != null ? instance : field).getClass().getSimpleName());
 		}
 	}
 
@@ -458,11 +469,23 @@ public final class ReflectionUtil {
 	 * @param params
 	 * @return
 	 */
+	public static <T> T invokeStatic(Class<?> cl, String methodName, Object... params) {
+		return invokeStatic(getMethod(cl, methodName), params);
+	}
+
+	/**
+	 * Invoke a static method
+	 *
+	 * @param <T>
+	 * @param method
+	 * @param params
+	 * @return
+	 */
 	public static <T> T invokeStatic(Method method, Object... params) {
 		try {
 			return (T) method.invoke(null, params);
 
-		} catch (ReflectiveOperationException ex) {
+		} catch (final ReflectiveOperationException ex) {
 			throw new ReflectionException("Could not invoke static method " + method + " with params " + StringUtils.join(params), ex);
 		}
 	}
@@ -476,11 +499,26 @@ public final class ReflectionUtil {
 	 * @param params
 	 * @return
 	 */
+	public static <T> T invoke(String methodName, Object instance, Object... params) {
+		return invoke(getMethod(instance.getClass(), methodName), instance, params);
+	}
+
+	/**
+	 * Invoke a non static method
+	 *
+	 * @param <T>
+	 * @param method
+	 * @param instance
+	 * @param params
+	 * @return
+	 */
 	public static <T> T invoke(Method method, Object instance, Object... params) {
 		try {
+			Objects.requireNonNull(method, "Method cannot be null for " + instance);
+
 			return (T) method.invoke(instance, params);
 
-		} catch (ReflectiveOperationException ex) {
+		} catch (final ReflectiveOperationException ex) {
 			throw new ReflectionException("Could not invoke method " + method + " on instance " + instance + " with params " + StringUtils.join(params), ex);
 		}
 	}
