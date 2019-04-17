@@ -3,14 +3,15 @@ package org.mineacademy.remain.model;
 import java.util.HashMap;
 import java.util.Objects;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.mineacademy.remain.util.RemainUtils;
 import org.mineacademy.remain.util.MinecraftVersion;
 import org.mineacademy.remain.util.MinecraftVersion.V;
 import org.mineacademy.remain.util.ReflectionUtil;
+import org.mineacademy.remain.util.RemainUtils;
 
 import lombok.Getter;
 
@@ -49,7 +50,7 @@ public enum CompMaterial {
 	AZURE_BLUET("RED_ROSE", 3),
 	BAKED_POTATO("BAKED_POTATO", 0),
 	BARRIER("BARRIER", 0),
-	BAT_SPAWN_EGG("MONSTER_EGG", 0),
+	BAT_SPAWN_EGG("MONSTER_EGG", 65),
 	BEACON("BEACON", 0),
 	BEDROCK("BEDROCK", 0),
 	BEEF("RAW_BEEF", 0),
@@ -85,7 +86,7 @@ public enum CompMaterial {
 	BLACK_WOOL("WOOL", 15),
 	BLAZE_POWDER("BLAZE_POWDER", 0),
 	BLAZE_ROD("BLAZE_ROD", 0),
-	BLAZE_SPAWN_EGG("MONSTER_EGG", 0),
+	BLAZE_SPAWN_EGG("MONSTER_EGG", 61),
 	BLUE_BANNER("BANNER", 11),
 	BLUE_BED("BED", 4),
 	BLUE_CARPET("CARPET", 11),
@@ -144,7 +145,7 @@ public enum CompMaterial {
 	CARVED_PUMPKIN("PUMPKIN", 0),
 	CAULDRON("CAULDRON", 0),
 	CAVE_AIR("AIR", 0),
-	CAVE_SPIDER_SPAWN_EGG("MONSTER_EGG", 0),
+	CAVE_SPIDER_SPAWN_EGG("MONSTER_EGG", 59),
 	CHAINMAIL_BOOTS("CHAINMAIL_BOOTS", 0),
 	CHAINMAIL_CHESTPLATE("CHAINMAIL_CHESTPLATE", 0),
 	CHAINMAIL_HELMET("CHAINMAIL_HELMET", 0),
@@ -154,7 +155,7 @@ public enum CompMaterial {
 	CHEST("CHEST", 0),
 	CHEST_MINECART("STORAGE_MINECART", 0),
 	CHICKEN("RAW_CHICKEN", 0),
-	CHICKEN_SPAWN_EGG("MONSTER_EGG", 0),
+	CHICKEN_SPAWN_EGG("MONSTER_EGG", 93),
 	CHIPPED_ANVIL("ANVIL", 1),
 	CHISELED_QUARTZ_BLOCK("QUARTZ_BLOCK", 1),
 	CHISELED_RED_SANDSTONE("RED_SANDSTONE", 1),
@@ -193,11 +194,11 @@ public enum CompMaterial {
 	COOKED_RABBIT("COOKED_RABBIT", 0),
 	COOKED_SALMON("COOKED_FISH", 1),
 	COOKIE("COOKIE", 0),
-	COW_SPAWN_EGG("MONSTER_EGG", 0),
+	COW_SPAWN_EGG("MONSTER_EGG", 92),
 	CRACKED_STONE_BRICKS("SMOOTH_BRICK", 2),
 	CRAFTING_TABLE("WORKBENCH", 0),
 	CREEPER_HEAD("SKULL_ITEM", 0),
-	CREEPER_SPAWN_EGG("MONSTER_EGG", 0),
+	CREEPER_SPAWN_EGG("MONSTER_EGG", 50),
 	CREEPER_WALL_HEAD("SKULL", 0),
 	CUT_RED_SANDSTONE("STONE", 0),
 	CUT_SANDSTONE("STONE", 0),
@@ -278,8 +279,8 @@ public enum CompMaterial {
 	ENCHANTED_BOOK("ENCHANTED_BOOK", 0),
 	ENCHANTED_GOLDEN_APPLE("GOLDEN_APPLE", 1),
 	ENCHANTING_TABLE("ENCHANTMENT_TABLE", 0),
-	ENDERMAN_SPAWN_EGG("MONSTER_EGG", 0),
-	ENDERMITE_SPAWN_EGG("MONSTER_EGG", 0),
+	ENDERMAN_SPAWN_EGG("MONSTER_EGG", 58),
+	ENDERMITE_SPAWN_EGG("MONSTER_EGG", 67),
 	ENDER_CHEST("ENDER_CHEST", 0),
 	ENDER_EYE("EYE_OF_ENDER", 0),
 	ENDER_PEARL("ENDER_PEARL", 0),
@@ -311,7 +312,7 @@ public enum CompMaterial {
 	FROSTED_ICE("FROSTED_ICE", 0),
 	FURNACE("FURNACE", "BURNING_FURNACE", 0),
 	FURNACE_MINECART("POWERED_MINECART", 0),
-	GHAST_SPAWN_EGG("MONSTER_EGG", 0),
+	GHAST_SPAWN_EGG("MONSTER_EGG", 56),
 	GHAST_TEAR("GHAST_TEAR", 0),
 	GLASS("GLASS", 0),
 	GLASS_BOTTLE("GLASS_BOTTLE", 0),
@@ -365,7 +366,7 @@ public enum CompMaterial {
 	GREEN_TERRACOTTA("STAINED_CLAY", 13),
 	GREEN_WALL_BANNER("WALL_BANNER", 0),
 	GREEN_WOOL("WOOL", 13),
-	GUARDIAN_SPAWN_EGG("MONSTER_EGG", 0),
+	GUARDIAN_SPAWN_EGG("MONSTER_EGG", 68),
 	GUNPOWDER("SULPHUR", 0),
 	HAY_BLOCK("HAY_BLOCK", 0),
 	HEART_OF_THE_SEA("STONE", 0),
@@ -375,7 +376,7 @@ public enum CompMaterial {
 	HORN_CORAL("STONE", 0),
 	HORN_CORAL_BLOCK("STONE", 0),
 	HORN_CORAL_FAN("STONE", 0),
-	HORSE_SPAWN_EGG("MONSTER_EGG", 0),
+	HORSE_SPAWN_EGG("MONSTER_EGG", 100),
 	HUSK_SPAWN_EGG("MONSTER_EGG", 0),
 	ICE("ICE", 0),
 	INFESTED_CHISELED_STONE_BRICKS("MONSTER_EGGS", 5),
@@ -495,7 +496,7 @@ public enum CompMaterial {
 	MAGENTA_WOOL("WOOL", 2),
 	MAGMA_BLOCK("MAGMA", 0),
 	MAGMA_CREAM("MAGMA_CREAM", 0),
-	MAGMA_CUBE_SPAWN_EGG("MONSTER_EGG", 0),
+	MAGMA_CUBE_SPAWN_EGG("MONSTER_EGG", 62),
 	MAP("MAP", 0),
 	MELON("MELON", 0),
 	MELON_SEEDS("MELON_SEEDS", 0),
@@ -503,7 +504,7 @@ public enum CompMaterial {
 	MELON_STEM("MELON_STEM", 0),
 	MILK_BUCKET("MILK_BUCKET", 0),
 	MINECART("MINECART", 0),
-	MOOSHROOM_SPAWN_EGG("MONSTER_EGG", 0),
+	MOOSHROOM_SPAWN_EGG("MONSTER_EGG", 96),
 	MOSSY_COBBLESTONE("MOSSY_COBBLESTONE", 0),
 	MOSSY_COBBLESTONE_WALL("COBBLE_WALL", 1),
 	MOSSY_STONE_BRICKS("SMOOTH_BRICK", 1),
@@ -555,7 +556,7 @@ public enum CompMaterial {
 	OAK_WOOD("LOG", 0),
 	OBSERVER("OBSERVER", 0),
 	OBSIDIAN("OBSIDIAN", 0),
-	OCELOT_SPAWN_EGG("MONSTER_EGG", 0),
+	OCELOT_SPAWN_EGG("MONSTER_EGG", 98),
 	ORANGE_BANNER("BANNER", 14),
 	ORANGE_BED("BED", 1),
 	ORANGE_CARPET("CARPET", 1),
@@ -579,7 +580,7 @@ public enum CompMaterial {
 	PETRIFIED_OAK_SLAB("STONE", 0),
 	PHANTOM_MEMBRANE("STONE", 0),
 	PHANTOM_SPAWN_EGG("MONSTER_EGG", 0),
-	PIG_SPAWN_EGG("MONSTER_EGG", 0),
+	PIG_SPAWN_EGG("MONSTER_EGG", 90),
 	PINK_BANNER("BANNER", 9),
 	PINK_BED("BED", 6),
 	PINK_CARPET("CARPET", 6),
@@ -600,7 +601,7 @@ public enum CompMaterial {
 	PLAYER_WALL_HEAD("SKULL", 0),
 	PODZOL("DIRT", 2),
 	POISONOUS_POTATO("POISONOUS_POTATO", 0),
-	POLAR_BEAR_SPAWN_EGG("MONSTER_EGG", 0),
+	POLAR_BEAR_SPAWN_EGG("MONSTER_EGG", 102),
 	POLISHED_ANDESITE("STONE", 6),
 	POLISHED_DIORITE("STONE", 4),
 	POLISHED_GRANITE("STONE", 2),
@@ -672,7 +673,7 @@ public enum CompMaterial {
 	RABBIT("RABBIT", 0),
 	RABBIT_FOOT("RABBIT_FOOT", 0),
 	RABBIT_HIDE("RABBIT_HIDE", 0),
-	RABBIT_SPAWN_EGG("MONSTER_EGG", 0),
+	RABBIT_SPAWN_EGG("MONSTER_EGG", 101),
 	RABBIT_STEW("RABBIT_STEW", 0),
 	RAIL("RAILS", 0),
 	REDSTONE("REDSTONE", 0),
@@ -720,20 +721,20 @@ public enum CompMaterial {
 	SEA_LANTERN("SEA_LANTERN", 0),
 	SEA_PICKLE("STONE", 0),
 	SHEARS("SHEARS", 0),
-	SHEEP_SPAWN_EGG("MONSTER_EGG", 0),
+	SHEEP_SPAWN_EGG("MONSTER_EGG", 91),
 	SHIELD("SHIELD", 0),
 	SHULKER_BOX("PURPLE_SHULKER_BOX", 0),
 	SHULKER_SHELL("SHULKER_SHELL", 0),
-	SHULKER_SPAWN_EGG("MONSTER_EGG", 0),
+	SHULKER_SPAWN_EGG("MONSTER_EGG", 69),
 	SIGN("SIGN", 0),
-	SILVERFISH_SPAWN_EGG("MONSTER_EGG", 0),
+	SILVERFISH_SPAWN_EGG("MONSTER_EGG", 60),
 	SKELETON_HORSE_SPAWN_EGG("MONSTER_EGG", 0),
 	SKELETON_SKULL("SKULL_ITEM", 0),
-	SKELETON_SPAWN_EGG("MONSTER_EGG", 0),
+	SKELETON_SPAWN_EGG("MONSTER_EGG", 51),
 	SKELETON_WALL_SKULL("SKULL", 0),
 	SLIME_BALL("SLIME_BALL", 0),
 	SLIME_BLOCK("SLIME_BLOCK", 0),
-	SLIME_SPAWN_EGG("MONSTER_EGG", 0),
+	SLIME_SPAWN_EGG("MONSTER_EGG", 55),
 	SMOOTH_QUARTZ("STONE", 0),
 	SMOOTH_RED_SANDSTONE("RED_SANDSTONE", 2),
 	SMOOTH_SANDSTONE("SANDSTONE", 2),
@@ -745,7 +746,7 @@ public enum CompMaterial {
 	SPAWNER("MOB_SPAWNER", 0),
 	SPECTRAL_ARROW("SPECTRAL_ARROW", 0),
 	SPIDER_EYE("SPIDER_EYE", 0),
-	SPIDER_SPAWN_EGG("MONSTER_EGG", 0),
+	SPIDER_SPAWN_EGG("MONSTER_EGG", 52),
 	SPLASH_POTION("SPLASH_POTION", 0),
 	SPONGE("SPONGE", 0),
 	SPRUCE_BOAT("BOAT_SPRUCE", 0),
@@ -762,7 +763,7 @@ public enum CompMaterial {
 	SPRUCE_STAIRS("SPRUCE_WOOD_STAIRS", 0),
 	SPRUCE_TRAPDOOR("TRAP_DOOR", 0),
 	SPRUCE_WOOD("LOG", 1),
-	SQUID_SPAWN_EGG("MONSTER_EGG", 0),
+	SQUID_SPAWN_EGG("MONSTER_EGG", 94),
 	STICK("STICK", 0),
 	STICKY_PISTON("PISTON_STICKY_BASE", 0),
 	STONE("STONE", 0),
@@ -818,7 +819,7 @@ public enum CompMaterial {
 	TURTLE_HELMET("STONE", 0),
 	TURTLE_SPAWN_EGG("MONSTER_EGG", 0),
 	VEX_SPAWN_EGG("MONSTER_EGG", 0),
-	VILLAGER_SPAWN_EGG("MONSTER_EGG", 0),
+	VILLAGER_SPAWN_EGG("MONSTER_EGG", 120),
 	VINDICATOR_SPAWN_EGG("MONSTER_EGG", 0),
 	VINE("VINE", 0),
 	VOID_AIR("AIR", 0),
@@ -842,11 +843,11 @@ public enum CompMaterial {
 	WHITE_TULIP("RED_ROSE", 6),
 	WHITE_WALL_BANNER("WALL_BANNER", 0),
 	WHITE_WOOL("WOOL", 0),
-	WITCH_SPAWN_EGG("MONSTER_EGG", 0),
+	WITCH_SPAWN_EGG("MONSTER_EGG", 66),
 	WITHER_SKELETON_SKULL("SKULL_ITEM", 0),
 	WITHER_SKELETON_SPAWN_EGG("MONSTER_EGG", 0),
 	WITHER_SKELETON_WALL_SKULL("SKULL", 0),
-	WOLF_SPAWN_EGG("MONSTER_EGG", 0),
+	WOLF_SPAWN_EGG("MONSTER_EGG", 95),
 	WOODEN_AXE("WOOD_AXE", 0),
 	WOODEN_HOE("WOOD_HOE", 0),
 	WOODEN_PICKAXE("WOOD_PICKAXE", 0),
@@ -868,8 +869,8 @@ public enum CompMaterial {
 	YELLOW_WOOL("WOOL", 4),
 	ZOMBIE_HEAD("SKULL_ITEM", 0),
 	ZOMBIE_HORSE_SPAWN_EGG("MONSTER_EGG", 0),
-	ZOMBIE_PIGMAN_SPAWN_EGG("MONSTER_EGG", 0),
-	ZOMBIE_SPAWN_EGG("MONSTER_EGG", 0),
+	ZOMBIE_PIGMAN_SPAWN_EGG("MONSTER_EGG", 57),
+	ZOMBIE_SPAWN_EGG("MONSTER_EGG", 54),
 	ZOMBIE_VILLAGER_SPAWN_EGG("MONSTER_EGG", 0),
 	ZOMBIE_WALL_HEAD("SKULL", 0),
 	// Added 15.03.2019
@@ -1353,6 +1354,35 @@ public enum CompMaterial {
 	}
 
 	/**
+	 * Reverts back the 1.13 spawn egg material to {@link EntityType}
+	 *
+	 * @param monsterEgg the monster egg
+	 * @return the egg, or null if does not exist in the current MC version
+	 */
+	public static EntityType makeEntityType(CompMaterial monsterEgg) {
+		Validate.isTrue(monsterEgg.toString().endsWith("_SPAWN_EGG"), "Material " + monsterEgg + " is not a valid monster egg! (Must end with _SPAWN_EGG)");
+
+		final String name = monsterEgg.toString().replace("_SPAWN_EGG", "");
+
+		// Special cases
+		if (name == "ZOMBIE_PIGMAN_SPAWN_EGG")
+			return EntityType.PIG_ZOMBIE;
+
+		else if (name == "MOOSHROOM_SPAWN_EGG")
+			return EntityType.MUSHROOM_COW;
+
+		else
+			// Parse normally, backwards compatible
+			try {
+				return EntityType.valueOf(name);
+			} catch (final IllegalArgumentException ex) {
+				// Does not exist for the current MC version
+			}
+
+		return null;
+	}
+
+	/**
 	 * Creates {@link CompMaterial} class from a given {@link Material}.
 	 *
 	 * @param mat
@@ -1379,6 +1409,9 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static CompMaterial fromString(String key) {
+		// try to resolve common pitfalls and emulate the material enum writing style
+		key = key.replace(" ", "_").toUpperCase();
+
 		try {
 			return CompMaterial.valueOf(key);
 
@@ -1403,7 +1436,8 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static CompMaterial fromLegacy(String name, int data) {
-		name = name.toUpperCase();
+		// try to resolve common pitfalls and emulate the material enum writing style
+		name = name.replace(" ", "_").toUpperCase();
 
 		if (cachedSearch.containsKey(name + "," + data))
 			return cachedSearch.get(name + "," + data);
